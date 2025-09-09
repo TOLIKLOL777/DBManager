@@ -1,9 +1,7 @@
 import os
-from typing import Optional
 
 import psycopg2
 from dotenv import load_dotenv
-from psycopg2 import OperationalError, extensions
 
 from src.decoder import employers_info, vacancies_info
 
@@ -40,12 +38,10 @@ def create_db() -> None:
 
         if not exists:
             cur.execute(f"CREATE DATABASE {db_name}")
-            print(f"База данных '{db_name}' создана")
         else:
             # Удаление старой базы данных и создание новой
             cur.execute(f"DROP DATABASE {db_name} WITH (FORCE)")
             cur.execute(f"CREATE DATABASE {db_name}")
-            print(f"База данных '{db_name}' создана")
 
     except Exception as e:
         print(f"Ошибка при создании базы данных: {e}")
@@ -58,6 +54,7 @@ def create_db() -> None:
 
 
 def create_tables() -> None:
+    '''Создаёт таблицы с работодателями и вакансиями'''
     try:
         conn = psycopg2.connect(
             dbname=db_con["dbname"],
@@ -102,6 +99,7 @@ def create_tables() -> None:
 
 
 def add_data() -> None:
+    '''Вставляет данные из API-запроса в соответствующие таблицы'''
     try:
         conn = psycopg2.connect(
             dbname=db_con["dbname"],
@@ -116,14 +114,14 @@ def add_data() -> None:
         vacancies = vacancies_info()
 
         # Добавляем данные работодателей в таблицу
-        for i in employers:
+        for employer in employers:
             query = f"INSERT INTO employers (employer_id, name, url, open_vacancies) VALUES (%s, %s, %s, %s) ON CONFLICT (employer_id) DO NOTHING"
-            cur.execute(query, i)
+            cur.execute(query, employer)
 
         # Добавляем данные вакансий в таблицу
-        for i in vacancies:
+        for vacancy in vacancies:
             query = f"INSERT INTO vacancies (vacancy_id, employer_id, employer_name, name, salary_from, salary_to, url) VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (vacancy_id) DO NOTHING"
-            cur.execute(query, i)
+            cur.execute(query, vacancy)
 
         conn.commit()
     except Exception as e:
