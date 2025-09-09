@@ -54,7 +54,7 @@ def create_db() -> None:
 
 
 def create_tables() -> None:
-    '''Создаёт таблицы с работодателями и вакансиями'''
+    """Создаёт таблицы с работодателями и вакансиями"""
     try:
         conn = psycopg2.connect(
             dbname=db_con["dbname"],
@@ -99,7 +99,7 @@ def create_tables() -> None:
 
 
 def add_data() -> None:
-    '''Вставляет данные из API-запроса в соответствующие таблицы'''
+    """Вставляет данные из API-запроса в соответствующие таблицы"""
     try:
         conn = psycopg2.connect(
             dbname=db_con["dbname"],

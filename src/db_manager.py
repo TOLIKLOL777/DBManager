@@ -40,7 +40,7 @@ class DBManager(BaseDB):
         self.cur = self.conn.cursor()
 
     def get_companies_and_vacancies_count(self) -> list:
-        '''Возвращает список работодателей и количество открытых вакансий'''
+        """Возвращает список работодателей и количество открытых вакансий"""
         self.cur.execute(
             """SELECT name,open_vacancies,url
                         FROM employers;"""
@@ -49,7 +49,7 @@ class DBManager(BaseDB):
         return employers
 
     def get_all_vacancies(self) -> list:
-        '''Возвращает список всех вакансий в таблице'''
+        """Возвращает список всех вакансий в таблице"""
         self.cur.execute(
             """SELECT employer_name,name,salary_from,salary_to,url
                         FROM vacancies;"""
@@ -58,7 +58,7 @@ class DBManager(BaseDB):
         return vacancies
 
     def get_avg_salary(self) -> list:
-        '''Возвращает среднее значение по зарплате всех вакансий'''
+        """Возвращает среднее значение по зарплате всех вакансий"""
         self.cur.execute(
             """SELECT AVG(salary_from)
                         FROM vacancies
@@ -68,7 +68,7 @@ class DBManager(BaseDB):
         return data
 
     def get_vacancies_with_higher_salary(self) -> list:
-        '''Возвращает список всех вакансий у которых зарплата выше среднего значения'''
+        """Возвращает список всех вакансий у которых зарплата выше среднего значения"""
         avg = self.get_avg_salary()
         avg = avg[0][0]
         self.cur.execute(
@@ -80,7 +80,7 @@ class DBManager(BaseDB):
         return high_vacancies
 
     def get_vacancies_with_keyword(self, keyword: str) -> list:
-        '''Принимает на вход слово по которому будет произведён поиск по вакансиям'''
+        """Принимает на вход слово по которому будет произведён поиск по вакансиям"""
         self.cur.execute(
             """
             SELECT vacancy_id, name, salary_from, salary_to, url, employer_name, url
