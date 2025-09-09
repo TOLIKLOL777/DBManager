@@ -2,6 +2,7 @@ from src.external_api import get_employers, get_vacancies
 
 
 def employers_info() -> list:
+    '''Переводит запрос с API в нужный формат с нужными данными'''
     employers = get_employers()
     employers_data = []
     for i in employers:
@@ -13,6 +14,7 @@ def employers_info() -> list:
 
 
 def vacancies_info() -> list:
+    '''Переводит запрос с API в нужный формат с нужными данными'''
     vacancies = get_vacancies()
     vacancies_data = []
     for vacancy in vacancies[0]["items"]:

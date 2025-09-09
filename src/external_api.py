@@ -16,7 +16,7 @@ companies = [
 
 
 def get_employers() -> list:
-    """Возвращает информацию о компаниях"""
+    """Возвращает информацию с API запроса о компаниях"""
     employers = []
     for company in companies:
         params = {"employer_id": company["id"]}
@@ -26,7 +26,7 @@ def get_employers() -> list:
 
 
 def get_vacancies() -> list:
-    """Возвращает информацию о вакациях компаний"""
+    """Возвращает информацию с API запроса о вакациях компаний"""
     vacancies = []
     for company in companies:
         params = {"employer_id": company["id"], "per_page": 100}
