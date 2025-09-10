@@ -6,11 +6,11 @@ def main():
     dbmanager = DBManager()
     print("Приветствую в программе для работы с вакансиями в hh.ru")
     print("Пожалуйста подождите, создаётся база данных...")
-    # create_db()
+    create_db()
     print("База данных готова к работе")
     while True:
         print(
-            """Выберите что хотите сделать (для выбора напишите номер действия):
+            f"""\nВыберите что хотите сделать (для выбора напишите номер действия):
     1:Получить список всех работодателей и их кол-во открытых вакансий.
     2:Получить список всех доступных вакансий.
     3:Получить среднее по всем вакансиям.
@@ -18,15 +18,18 @@ def main():
     5:Сделать поиск вакансий по заданному слову.
     6:Выход."""
         )
-        answer = input()
+        try:
+            answer = int(input())
+        except Exception as e:
+            print('Введите корректный ответ')
         if answer == 1:
             companies = dbmanager.get_companies_and_vacancies_count()
+            print(companies)
             for company in companies:
                 print(f"Работодатель: {company[0]}, кол-во открытых вакансий {company[1]}, ссылка {company[2]}")
 
         if answer == 2:
             vacancies = dbmanager.get_all_vacancies()
-            print(vacancies)
             for vacancy in vacancies:
                 print(
                     f"Работодатель: {vacancy[0]}, Вакансия: {vacancy[1]}, зарплата от {vacancy[2]} до {vacancy[3]}, ссылка {vacancy[4]}"
@@ -54,7 +57,7 @@ def main():
         if answer == 6:
             break
 
-        if answer.isalpha() or answer > 6 or answer <= 0:
+        if answer > 6 or answer <= 0:
             print("Введите корректный ответ")
 
 
