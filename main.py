@@ -10,7 +10,7 @@ def main():
     print("База данных готова к работе")
     while True:
         print(
-            f"""\nВыберите что хотите сделать (для выбора напишите номер действия):
+            """\nВыберите что хотите сделать (для выбора напишите номер действия):
     1:Получить список всех работодателей и их кол-во открытых вакансий.
     2:Получить список всех доступных вакансий.
     3:Получить среднее по всем вакансиям.
@@ -20,8 +20,8 @@ def main():
         )
         try:
             answer = int(input())
-        except Exception as e:
-            print('Введите корректный ответ')
+        except Exception:
+            print("Введите корректный ответ")
         if answer == 1:
             companies = dbmanager.get_companies_and_vacancies_count()
             print(companies)
@@ -37,7 +37,7 @@ def main():
 
         if answer == 3:
             avg = dbmanager.get_avg_salary()
-            print(f"Среднее по всем вакансиям {round(avg[0][0],2)}")
+            print(f"Среднее по всем вакансиям {round(avg[0][0], 2)}")
 
         if answer == 4:
             high_vacancies = dbmanager.get_vacancies_with_higher_salary()

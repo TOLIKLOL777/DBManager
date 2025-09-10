@@ -42,10 +42,10 @@ class DBManager(BaseDB):
     def get_companies_and_vacancies_count(self) -> list:
         """Возвращает список работодателей и количество открытых вакансий"""
         self.cur.execute(
-            '''SELECT e.name, COUNT(v.vacancy_id) as vacancy_count, e.url
+            """SELECT e.name, COUNT(v.vacancy_id) as vacancy_count, e.url
                FROM employers e
                INNER JOIN vacancies v ON e.employer_id = v.employer_id
-               GROUP BY e.name, e.url;'''
+               GROUP BY e.name, e.url;"""
         )
 
         employers = self.cur.fetchall()

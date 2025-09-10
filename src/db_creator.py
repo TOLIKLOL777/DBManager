@@ -115,12 +115,14 @@ def add_data() -> None:
 
         # Добавляем данные работодателей в таблицу
         for employer in employers:
-            query = f"INSERT INTO employers (employer_id, name, url, open_vacancies) VALUES (%s, %s, %s, %s) ON CONFLICT (employer_id) DO NOTHING"
+            query = """INSERT INTO employers (employer_id, name, url, open_vacancies)
+            VALUES (%s, %s, %s, %s) ON CONFLICT (employer_id) DO NOTHING"""
             cur.execute(query, employer)
 
         # Добавляем данные вакансий в таблицу
         for vacancy in vacancies:
-            query = f"INSERT INTO vacancies (vacancy_id, employer_id, employer_name, name, salary_from, salary_to, url) VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (vacancy_id) DO NOTHING"
+            query = """INSERT INTO vacancies (vacancy_id, employer_id, employer_name, name, salary_from, salary_to, url)
+            VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (vacancy_id) DO NOTHING"""
             cur.execute(query, vacancy)
 
         conn.commit()
