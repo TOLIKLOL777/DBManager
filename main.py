@@ -3,10 +3,10 @@ from src.db_manager import DBManager
 
 
 def main():
-    dbmanager = DBManager()
     print("Приветствую в программе для работы с вакансиями в hh.ru")
     print("Пожалуйста подождите, создаётся база данных...")
     create_db()
+    dbmanager = DBManager()
     print("База данных готова к работе")
     while True:
         print(
@@ -24,9 +24,8 @@ def main():
             print("Введите корректный ответ")
         if answer == 1:
             companies = dbmanager.get_companies_and_vacancies_count()
-            print(companies)
             for company in companies:
-                print(f"Работодатель: {company[0]}, кол-во открытых вакансий {company[1]}, ссылка {company[2]}")
+                print(f"Работодатель: {company[0]}, кол-во открытых вакансий {company[1]}")
 
         if answer == 2:
             vacancies = dbmanager.get_all_vacancies()

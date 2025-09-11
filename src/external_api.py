@@ -21,7 +21,7 @@ def get_employers() -> list:
     for company in companies:
         params = {"employer_id": company["id"]}
         data = requests.get(url=hh_api + "employers/" + str(company["id"]), params=params)
-        employers.append({company["name"]: data.json()})
+        employers.append(data.json())
     return employers
 
 

@@ -42,10 +42,10 @@ class DBManager(BaseDB):
     def get_companies_and_vacancies_count(self) -> list:
         """Возвращает список работодателей и количество открытых вакансий"""
         self.cur.execute(
-            """SELECT e.name, COUNT(v.vacancy_id) as vacancy_count, e.url
+            """SELECT e.name, COUNT(v.vacancy_id) as vacancy_count
                FROM employers e
                INNER JOIN vacancies v ON e.employer_id = v.employer_id
-               GROUP BY e.name, e.url;"""
+               GROUP BY e.name;"""
         )
 
         employers = self.cur.fetchall()
@@ -54,8 +54,9 @@ class DBManager(BaseDB):
     def get_all_vacancies(self) -> list:
         """Возвращает список всех вакансий в таблице"""
         self.cur.execute(
-            """SELECT employer_name,name,salary_from,salary_to,url
-                        FROM vacancies;"""
+            """SELECT e.name,v.name,v.salary_from,v.salary_to,v.url
+                        FROM vacancies v
+                        INNER JOIN employers e ON e.employer_id = v.employer_id;"""
         )
         vacancies = self.cur.fetchall()
         return vacancies
@@ -75,8 +76,9 @@ class DBManager(BaseDB):
         avg = self.get_avg_salary()
         avg = avg[0][0]
         self.cur.execute(
-            f"""SELECT employer_name,name,salary_from,salary_to,url
-                        FROM vacancies
+            f"""SELECT e.name, v.name, v.salary_from, v.salary_to, v.url
+                        FROM vacancies v
+                        INNER JOIN employers e ON e.employer_id = v.employer_id
                         WHERE salary_from > {avg};"""
         )
         high_vacancies = self.cur.fetchall()
@@ -86,10 +88,11 @@ class DBManager(BaseDB):
         """Принимает на вход слово по которому будет произведён поиск по вакансиям"""
         self.cur.execute(
             """
-            SELECT vacancy_id, name, salary_from, salary_to, url, employer_name, url
-            FROM vacancies
-            WHERE name ILIKE %s
-            ORDER BY name
+            SELECT e.name, v.name, v.salary_from, v.salary_to, v.url
+            FROM vacancies v
+            INNER JOIN employers e ON e.employer_id = v.employer_id
+            WHERE v.name ILIKE %s
+            ORDER BY v.name
         """,
             (f"%{keyword}%",),
         )

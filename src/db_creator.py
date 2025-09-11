@@ -79,7 +79,6 @@ def create_tables() -> None:
             """CREATE TABLE IF NOT EXISTS vacancies (
                         vacancy_id INT PRIMARY KEY,
                         employer_id INT NOT NULL,
-                        employer_name VARCHAR(255) NOT NULL,
                         name VARCHAR(255) NOT NULL,
                         salary_from INTEGER,
                         salary_to INTEGER,
@@ -121,8 +120,8 @@ def add_data() -> None:
 
         # Добавляем данные вакансий в таблицу
         for vacancy in vacancies:
-            query = """INSERT INTO vacancies (vacancy_id, employer_id, employer_name, name, salary_from, salary_to, url)
-            VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (vacancy_id) DO NOTHING"""
+            query = """INSERT INTO vacancies (vacancy_id, employer_id, name, salary_from, salary_to, url)
+            VALUES (%s, %s, %s, %s, %s, %s) ON CONFLICT (vacancy_id) DO NOTHING"""
             cur.execute(query, vacancy)
 
         conn.commit()
